@@ -16,12 +16,12 @@ public class Carta{
 		return valor;
 	}
 
-	public String getCara(){
+	public void getCara(){
 		cara = "[";
-		if( color != "Ninguno")
+		/*if( color != "Ninguno")
 		{
 			cara += this.color + " ";
-		}
+		}*/
 
 		switch(this.valor)
 		{
@@ -38,6 +38,23 @@ public class Carta{
 			default: cara += String.valueOf(this.valor);
 		}
 		cara += "]";
-		return cara;
+		if(color.equals("Rojo"))
+			System.out.print("\033[31m"+cara+"\033[37m");
+		else
+			if(color.equals("Azul"))
+				System.out.print("\033[36m"+cara+"\033[37m");
+			else
+				if(color.equals("Verde"))
+					System.out.print("\033[32m"+cara+"\033[37m");
+					else
+						if(color.equals("Amarillo"))
+							System.out.print("\033[33m"+cara+"\033[37m");
+						else
+							System.out.print("\033[35m"+cara+"\033[37m");
+
+
+
+
+
 	}
 }

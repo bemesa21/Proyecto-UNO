@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Jugador{
-	static ArrayList<Carta> mano;
+	private ArrayList<Carta> mano;
 	private String nombre="Jugador ";
 // 	private int numJugadores;
  
@@ -31,57 +31,94 @@ retornará:
 4:COmodin
 5:COmodin roba 4
 */
-	public int tirarCarta(Carta monton){
+	public int tirarCarta(Tablero monton, Baraja b1){
+System.out.flush();
+		System.out.print("Carta en mesa: ");
+		monton.carta.getCara();
+		int auxiliar=-1;
 		Scanner teclado=new Scanner(System.in);
-		System.out.println("Turno: "+nombre);
-		System.out.println("¿Que carta desea Tirar?");
-		int cartaAtirar=teclado.nextInt();
-		return 	comprobarCarta(monton,cartaAtirar);
-
+		while(auxiliar==-1){
+			System.out.println("\nTurno: "+nombre);
+			this.imprimeBaraja();
+			if(verificarSiNoCome(monton,b1)){
+				System.out.println("¿Que carta desea Tirar?");
+				int cartaAtirar=teclado.nextInt();
+				auxiliar=comprobarCarta(monton,cartaAtirar);
+			}else{
+				while(verificarSiNoCome(monton,b1)==false){
+					System.out.println(nombre+"debe comer de la baraja");
+					mano.add(b1.cartas.get(0));
+					b1.cartas.remove(0);
+				}
+			}
+			
+		}
+		return auxiliar;
 	}
 
-	public int comprobarCarta(Carta monton, int cartaAtirar){
+	public int comprobarCarta(Tablero monton, int cartaAtirar){
 		int aRetornar=0;
-		System.out.println(mano.get(cartaAtirar-1).getValor());
+//		System.out.println(mano.get(cartaAtirar-1).getValor());
 		if(mano.get(cartaAtirar-1).getValor()<=9){
-			if(monton.getValor()==mano.get(cartaAtirar-1).getValor() || monton.getColor()==mano.get(cartaAtirar-1).getColor()){
-				//mano.remove(cartaAtirar-1);
-				System.out.println("Tiraste una carta: " + mano.get(cartaAtirar-1).getValor());
-				System.out.println("ES de color" + mano.get(cartaAtirar-1).getColor());
+			if(monton.carta.getValor()==mano.get(cartaAtirar-1).getValor() || monton.carta.getColor()==mano.get(cartaAtirar-1).getColor()){
+				monton.carta=mano.get(cartaAtirar-1);
+				mano.remove(cartaAtirar-1);
+
 			}else{
 				System.out.println("NO puedes tirar esa carta )o)");
 				aRetornar=-1;
 			}
 		}else{
 			if(mano.get(cartaAtirar-1).getValor()==10)
-				aRetornar= 1;
+				{mano.remove(cartaAtirar-1);
+				aRetornar= 1;}
 			else
 				if(mano.get(cartaAtirar-1).getValor()==11)
-					aRetornar= 2;
+					{mano.remove(cartaAtirar-1);
+					aRetornar= 2;}
 				else
 					if(mano.get(cartaAtirar-1).getValor()==12)
-						aRetornar= 3;
+						{mano.remove(cartaAtirar-1);
+						aRetornar= 3;}
 					else
 						if(mano.get(cartaAtirar-1).getValor()==13)
-							aRetornar= 4;
+							{mano.remove(cartaAtirar-1);
+							aRetornar= 4;}
 						else 
 							if(mano.get(cartaAtirar-1).getValor()==14)
-								aRetornar= 5;
+								{mano.remove(cartaAtirar-1);
+								aRetornar= 5;}
 			}
 
 		
 		return aRetornar;
 	}
 
-	public void imprimeBaraja(){
-		System.out.println(mano.size());
+	public boolean verificarSiNoCome(Tablero monton, Baraja b1){
+		boolean bandera=false;
 		for (Carta c :  mano ) {
-			System.out.println(c.getCara());
+			if(c.getValor()>9 || c.getValor()==monton.carta.getValor() || c.getColor()==monton.carta.getColor())
+				bandera = true;
 		}
+		return bandera;
+
+	}
+
+	public void imprimeBaraja(){
+		for (Carta c :  mano ) {
+			c.getCara();
+		}
+		System.out.println(" ");
 
 	
 
 	}
 
+	public ArrayList<Carta> getMano(){
+		return mano;
+	}
+	public String getNombre(){
+		return nombre;
+	}
 
 }

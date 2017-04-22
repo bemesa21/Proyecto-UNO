@@ -39,7 +39,7 @@ public class Baraja{
 		int contador=0;
 		System.out.println(cartas.size());
 		for (Carta c :  cartas ) {
-			System.out.println(c.getCara());
+			c.getCara();
 			contador ++;
 		}
 
